@@ -18,12 +18,12 @@ export function ProfileScreen() {
           type="button"
           onClick={() => navigate("/app/listing")}
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm transition duration-200 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
-          aria-label="Voltar à lista"
+          aria-label="Back to list"
         >
           <IconBack />
         </button>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">Profissional</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">Professional</p>
           <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-2xl">{manicurist.name}</h1>
         </div>
       </div>
@@ -50,7 +50,7 @@ export function ProfileScreen() {
                 <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                   {manicurist.rating} <span className="text-amber-500">★</span>
                   <span className="text-zinc-400"> · </span>
-                  <span>214 atendimentos</span>
+                  <span>214 appointments</span>
                 </p>
               </div>
             </div>
@@ -59,12 +59,12 @@ export function ProfileScreen() {
 
         <div className="flex flex-col gap-6 lg:col-span-5">
           <section className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-card dark:border-zinc-800 dark:bg-zinc-900">
-            <h2 className="text-xs font-bold uppercase tracking-wide text-zinc-400">Endereço</h2>
+            <h2 className="text-xs font-bold uppercase tracking-wide text-zinc-400">Address</h2>
             <p className="mt-2 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">{manicurist.address}</p>
           </section>
 
           <section className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-card dark:border-zinc-800 dark:bg-zinc-900">
-            <h2 className="mb-4 text-xs font-bold uppercase tracking-wide text-zinc-400">Portfólio</h2>
+            <h2 className="mb-4 text-xs font-bold uppercase tracking-wide text-zinc-400">Portfolio</h2>
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-3">
               {Array.from({ length: 9 }).map((_, i) => (
                 <div key={i} className="aspect-square rounded-lg bg-zinc-100 dark:bg-zinc-800" />
@@ -78,7 +78,7 @@ export function ProfileScreen() {
               onClick={() => navigate(`/app/checkout/${manicurist.id}`)}
               className="w-full rounded-xl bg-primary-600 py-4 text-center text-sm font-bold uppercase tracking-wide text-white shadow-lg transition duration-200 ease-in-out hover:bg-primary-700 hover:shadow-md dark:bg-primary-600 dark:hover:bg-primary-500"
             >
-              Fazer as unhas
+              Book now
             </button>
           </div>
         </div>

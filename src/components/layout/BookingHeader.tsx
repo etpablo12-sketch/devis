@@ -21,7 +21,7 @@ export function BookingHeader() {
           type="button"
           onClick={() => navigate("/")}
           className="flex min-w-0 items-center gap-2 rounded-lg py-1 text-left transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-zinc-950"
-          aria-label="Ir ao site"
+          aria-label="Go to site"
         >
           <DivasLogo className="truncate text-2xl text-primary-600 dark:text-primary-400 sm:text-3xl" />
         </button>
@@ -44,10 +44,10 @@ export function BookingHeader() {
             size="sm"
             onClick={handleSignOut}
             className="gap-1 px-2 sm:px-3"
-            aria-label="Sair"
+            aria-label="Sign out"
           >
             <ArrowRightOnRectangleIcon className="h-5 w-5 sm:hidden" />
-            <span className="hidden sm:inline">Sair</span>
+            <span className="hidden sm:inline">Sign out</span>
           </Button>
         </div>
       </div>

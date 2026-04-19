@@ -32,10 +32,10 @@ export function LoginPage() {
   const errors = useMemo(() => {
     const e: { email?: string; password?: string } = {};
     const em = email.trim();
-    if (!em) e.email = "Informe seu e-mail.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) e.email = "E-mail inválido.";
-    if (!password) e.password = "Informe sua senha.";
-    else if (password.length < 8) e.password = "A senha deve ter pelo menos 8 caracteres.";
+    if (!em) e.email = "Enter your email.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) e.email = "Invalid email.";
+    if (!password) e.password = "Enter your password.";
+    else if (password.length < 8) e.password = "Password must be at least 8 characters.";
     return e;
   }, [email, password]);
 
@@ -46,7 +46,7 @@ export function LoginPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isFirebaseConfigured()) {
-      toast.error("Configure o Firebase em .env para entrar.");
+      toast.error("Configure Firebase in .env to sign in.");
       return;
     }
     setSubmitAttempted(true);
@@ -56,11 +56,11 @@ export function LoginPage() {
       await signInEmail(email, password);
       const profile = await refreshProfileWithRetry(refreshProfile);
       const sessionEmail = getFirebaseAuth()?.currentUser?.email?.trim() || email.trim();
-      toast.success("Login realizado!");
+      toast.success("Signed in!");
       navigate(postLoginDestination(profile, sessionEmail, from), { replace: true });
     } catch (err: unknown) {
       const code = err instanceof FirebaseError ? err.code : "";
-      toast.error(code ? mapAuthError(code) : "Falha ao entrar.");
+      toast.error(code ? mapAuthError(code) : "Sign-in failed.");
     } finally {
       setIsLoading(false);
     }
@@ -68,7 +68,7 @@ export function LoginPage() {
 
   async function handleGoogle() {
     if (!isFirebaseConfigured()) {
-      toast.error("Configure o Firebase em .env.");
+      toast.error("Configure Firebase in .env.");
       return;
     }
     setIsLoading(true);
@@ -76,11 +76,11 @@ export function LoginPage() {
       await signInGoogle();
       const profile = await refreshProfileWithRetry(refreshProfile);
       const sessionEmail = getFirebaseAuth()?.currentUser?.email?.trim() || "";
-      toast.success("Login realizado!");
+      toast.success("Signed in!");
       navigate(postLoginDestination(profile, sessionEmail, from), { replace: true });
     } catch (err: unknown) {
       const code = err instanceof FirebaseError ? err.code : "";
-      toast.error(code ? mapAuthError(code) : "Falha no Google.");
+      toast.error(code ? mapAuthError(code) : "Google sign-in failed.");
     } finally {
       setIsLoading(false);
     }
@@ -103,7 +103,7 @@ export function LoginPage() {
           <div className="relative z-10 max-w-md">
             <DivasLogo className="text-5xl text-white drop-shadow-sm xl:text-6xl" />
             <p className="mt-6 text-lg font-medium leading-relaxed text-primary-100/95">
-              Entre para agendar, pagar com segurança e acompanhar seus atendimentos.
+              Sign in to book, pay securely, and track your appointments.
             </p>
           </div>
         </aside>
@@ -114,7 +114,7 @@ export function LoginPage() {
               to="/"
               className="text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
             >
-              ← Voltar ao site
+              ← Back to site
             </Link>
             <ThemeToggle />
           </header>
@@ -122,11 +122,9 @@ export function LoginPage() {
           <div className="flex flex-1 items-center justify-center px-4 py-10 sm:px-6 sm:py-12 lg:px-10">
             <div className="w-full max-w-md">
               <div className="mb-8 text-center lg:text-left">
-                <p className="text-sm font-medium text-primary-600 dark:text-primary-400">Conta Divas</p>
-                <h1 className="mt-1 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl dark:text-white">Entrar</h1>
-                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                  Use e-mail e senha ou continue com Google.
-                </p>
+                <p className="text-sm font-medium text-primary-600 dark:text-primary-400">Divas account</p>
+                <h1 className="mt-1 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl dark:text-white">Sign in</h1>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Use email and password or continue with Google.</p>
               </div>
 
               <div className="mb-6 flex justify-center lg:hidden">
@@ -141,11 +139,11 @@ export function LoginPage() {
                   disabled={isLoading}
                   onClick={handleGoogle}
                 >
-                  Continuar com Google
+                  Continue with Google
                 </Button>
 
                 <div className="relative mb-6 text-center text-xs text-zinc-400">
-                  <span className="relative z-10 bg-white px-2 dark:bg-zinc-900">ou com e-mail</span>
+                  <span className="relative z-10 bg-white px-2 dark:bg-zinc-900">or with email</span>
                   <span className="absolute left-0 top-1/2 z-0 h-px w-full bg-zinc-200 dark:bg-zinc-700" />
                 </div>
 
@@ -154,8 +152,8 @@ export function LoginPage() {
                     id="login-email"
                     name="email"
                     type="email"
-                    label="E-mail"
-                    placeholder="voce@email.com"
+                    label="Email"
+                    placeholder="you@email.com"
                     autoComplete="email"
                     value={email}
                     onChange={(ev) => setEmail(ev.target.value)}
@@ -167,13 +165,13 @@ export function LoginPage() {
                   <div>
                     <div className="mb-1.5 flex items-center justify-between gap-2">
                       <label htmlFor="login-password" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                        Senha
+                        Password
                       </label>
                       <Link
                         to="/forgot-password"
                         className="text-xs font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400"
                       >
-                        Esqueceu a senha?
+                        Forgot password?
                       </Link>
                     </div>
                     <div
@@ -202,7 +200,7 @@ export function LoginPage() {
                           type="button"
                           className="p-3 text-zinc-500 transition hover:text-zinc-800 dark:text-zinc-400"
                           onClick={() => setShowPassword((v) => !v)}
-                          aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                          aria-label={showPassword ? "Hide password" : "Show password"}
                         >
                           {showPassword ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
                         </button>
@@ -216,14 +214,14 @@ export function LoginPage() {
                   </div>
 
                   <Button type="submit" className="w-full" size="lg" isLoading={isLoading}>
-                    Entrar
+                    Sign in
                   </Button>
                 </form>
 
                 <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
-                  Não tem conta?{" "}
+                  Don&apos;t have an account?{" "}
                   <Link to="/signup" className="font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400">
-                    Criar conta
+                    Create account
                   </Link>
                 </p>
               </Card>

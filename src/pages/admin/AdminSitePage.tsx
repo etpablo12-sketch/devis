@@ -36,9 +36,9 @@ export function AdminSitePage() {
     try {
       const { updatedAt: _u, ...rest } = draft;
       await saveSiteSettings(rest);
-      toast.success("Site atualizado.");
+      toast.success("Site updated.");
     } catch {
-      toast.error("Não foi possível salvar. Verifique permissões Firestore.");
+      toast.error("Could not save. Check Firestore permissions.");
     } finally {
       setSaving(false);
     }
@@ -46,28 +46,28 @@ export function AdminSitePage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Conteúdo do site</h1>
+      <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Site content</h1>
       <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-        Edita o texto e blocos da página inicial pública. Alterações aparecem no site após salvar.
+        Edit copy and blocks for the public landing page. Changes appear after you save.
       </p>
 
       <div className="mt-8 space-y-8">
         <Card padding="lg">
           <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Hero</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <TextField id="heroBadge" label="Selo / badge" value={draft.heroBadge} onChange={(e) => setField("heroBadge", e.target.value)} />
-            <TextField id="heroImageUrl" label="URL da imagem hero" value={draft.heroImageUrl} onChange={(e) => setField("heroImageUrl", e.target.value)} />
+            <TextField id="heroBadge" label="Badge" value={draft.heroBadge} onChange={(e) => setField("heroBadge", e.target.value)} />
+            <TextField id="heroImageUrl" label="Hero image URL" value={draft.heroImageUrl} onChange={(e) => setField("heroImageUrl", e.target.value)} />
           </div>
           <TextField
             id="heroTitle"
-            label="Título principal"
+            label="Headline"
             className="mt-4"
             value={draft.heroTitle}
             onChange={(e) => setField("heroTitle", e.target.value)}
           />
           <div className="mt-4">
             <label htmlFor="heroSubtitle" className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              Subtítulo
+              Subtitle
             </label>
             <textarea
               id="heroSubtitle"
@@ -78,24 +78,24 @@ export function AdminSitePage() {
             />
           </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-3">
-            <TextField id="statAgenda" label="Stat: Agenda" value={draft.statAgenda} onChange={(e) => setField("statAgenda", e.target.value)} />
-            <TextField id="statRating" label="Stat: Avaliação" value={draft.statRating} onChange={(e) => setField("statRating", e.target.value)} />
-            <TextField id="statCities" label="Stat: Cidades" value={draft.statCities} onChange={(e) => setField("statCities", e.target.value)} />
+            <TextField id="statAgenda" label="Stat: Booking" value={draft.statAgenda} onChange={(e) => setField("statAgenda", e.target.value)} />
+            <TextField id="statRating" label="Stat: Rating" value={draft.statRating} onChange={(e) => setField("statRating", e.target.value)} />
+            <TextField id="statCities" label="Stat: Cities" value={draft.statCities} onChange={(e) => setField("statCities", e.target.value)} />
           </div>
         </Card>
 
         <Card padding="lg">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Funcionalidades (cards)</h2>
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Features (cards)</h2>
           <TextField
             id="featuresSectionTitle"
-            label="Título da secção"
+            label="Section title"
             className="mt-4"
             value={draft.featuresSectionTitle}
             onChange={(e) => setField("featuresSectionTitle", e.target.value)}
           />
           <div className="mt-4">
             <label htmlFor="featuresSectionSubtitle" className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              Subtítulo da secção
+              Section subtitle
             </label>
             <textarea
               id="featuresSectionSubtitle"
@@ -122,12 +122,12 @@ export function AdminSitePage() {
                       }))
                     }
                   >
-                    Remover
+                    Remove
                   </Button>
                 </div>
-                <TextField id={`ft-${i}-t`} label="Título" className="mt-2" value={f.title} onChange={(e) => updateFeature(i, { title: e.target.value })} />
+                <TextField id={`ft-${i}-t`} label="Title" className="mt-2" value={f.title} onChange={(e) => updateFeature(i, { title: e.target.value })} />
                 <div className="mt-2">
-                  <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Texto</label>
+                  <label className="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Body</label>
                   <textarea
                     rows={2}
                     value={f.body}
@@ -145,26 +145,26 @@ export function AdminSitePage() {
             onClick={() =>
               setDraft((d) => ({
                 ...d,
-                features: [...d.features, { title: "Novo destaque", body: "Descrição breve." }],
+                features: [...d.features, { title: "New highlight", body: "Short description." }],
               }))
             }
           >
-            Adicionar card
+            Add card
           </Button>
         </Card>
 
         <Card padding="lg">
-          <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Contacto (secção)</h2>
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">Contact (section)</h2>
           <TextField
             id="contactSectionTitle"
-            label="Título"
+            label="Title"
             className="mt-4"
             value={draft.contactSectionTitle}
             onChange={(e) => setField("contactSectionTitle", e.target.value)}
           />
           <div className="mt-4">
             <label htmlFor="contactSectionIntro" className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              Texto introdutório
+              Intro copy
             </label>
             <textarea
               id="contactSectionIntro"
@@ -178,7 +178,7 @@ export function AdminSitePage() {
 
         <div className="flex justify-end">
           <Button type="button" size="lg" isLoading={saving} onClick={handleSave}>
-            Salvar site
+            Save site
           </Button>
         </div>
       </div>

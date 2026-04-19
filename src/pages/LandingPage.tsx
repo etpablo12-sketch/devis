@@ -52,14 +52,14 @@ export function LandingPage() {
   async function handleContact(e: FormEvent) {
     e.preventDefault();
     if (!isFirebaseConfigured()) {
-      toast.error("Configure o Firebase no arquivo .env para enviar mensagens.");
+      toast.error("Configure Firebase in .env to send messages.");
       return;
     }
     const nm = name.trim();
     const em = email.trim();
     const msg = message.trim();
     if (!nm || !em || !msg) {
-      toast.error("Preencha nome, e-mail e mensagem.");
+      toast.error("Please fill in name, email, and message.");
       return;
     }
     setLoading(true);
@@ -71,9 +71,9 @@ export function LandingPage() {
         message: msg,
       });
       setSent(true);
-      toast.success("Mensagem enviada! Nossa equipe responde em breve.");
+      toast.success("Message sent! Our team will reply soon.");
     } catch {
-      toast.error("Não foi possível enviar. Verifique as regras do Firestore e sua conexão.");
+      toast.error("Could not send. Check Firestore rules and your connection.");
     } finally {
       setLoading(false);
     }
@@ -102,23 +102,23 @@ export function LandingPage() {
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-zinc-600 sm:text-xl dark:text-zinc-400">{site.heroSubtitle}</p>
               <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
                 <Button size="lg" type="button" className="min-w-[200px] sm:w-auto" onClick={() => navigate("/app/listing")}>
-                  Explorar manicures
+                  Browse manicurists
                 </Button>
                 <Button variant="outline" size="lg" type="button" className="min-w-[200px] sm:w-auto" onClick={() => navigate(user ? "/app/listing" : "/login")}>
-                  {user ? "Minha conta" : "Já tenho conta"}
+                  {user ? "My account" : "I have an account"}
                 </Button>
               </div>
               <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-zinc-200/80 pt-10 sm:max-w-lg dark:border-zinc-700/80">
                 <div>
-                  <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-500">Agenda</dt>
+                  <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-500">Booking</dt>
                   <dd className="mt-1 text-2xl font-bold tabular-nums text-zinc-900 dark:text-white">{site.statAgenda}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500">Avaliação</dt>
+                  <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500">Rating</dt>
                   <dd className="mt-1 text-2xl font-bold tabular-nums text-zinc-900 dark:text-white">{site.statRating}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500">Cidades</dt>
+                  <dt className="text-xs font-medium uppercase tracking-wide text-zinc-500">Cities</dt>
                   <dd className="mt-1 text-2xl font-bold tabular-nums text-zinc-900 dark:text-white">{site.statCities}</dd>
                 </div>
               </dl>
@@ -132,15 +132,15 @@ export function LandingPage() {
                   <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-zinc-900 dark:text-white">Suporte humano</p>
-                  <p className="mt-0.5 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">Respostas em minutos pelos canais do app.</p>
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-white">Human support</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">Quick replies through the app.</p>
                 </div>
               </div>
             </div>
           </Container>
         </section>
 
-        <section id="funcionalidades" className="scroll-mt-20 py-16 sm:py-20 lg:py-28">
+        <section id="features" className="scroll-mt-20 py-16 sm:py-20 lg:py-28">
           <Container>
             <div className="mx-auto max-w-2xl text-center">
               <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">{site.featuresSectionTitle}</h2>
@@ -165,15 +165,15 @@ export function LandingPage() {
           </Container>
         </section>
 
-        <section id="novidades" className="scroll-mt-20 border-y border-zinc-200 bg-white py-16 dark:border-zinc-800 dark:bg-zinc-950 sm:py-20 lg:py-24">
+        <section id="news" className="scroll-mt-20 border-y border-zinc-200 bg-white py-16 dark:border-zinc-800 dark:bg-zinc-950 sm:py-20 lg:py-24">
           <Container>
             <div className="mx-auto max-w-2xl text-center">
-              <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">Novidades</h2>
-              <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">Conteúdos publicados pela equipa no painel.</p>
+              <h2 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">News</h2>
+              <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">Published by the team from the admin dashboard.</p>
             </div>
             {posts.length === 0 ? (
               <p className="mx-auto mt-10 max-w-md text-center text-sm text-zinc-500">
-                Ainda não há publicações. No painel admin, crie em <strong>Publicações</strong> e marque como publicado.
+                No posts yet. In the admin, go to <strong>Posts</strong> and mark an entry as published.
               </p>
             ) : (
               <ul className="mt-12 grid gap-8 lg:grid-cols-2">
@@ -191,7 +191,7 @@ export function LandingPage() {
           </Container>
         </section>
 
-        <section id="contato" className="scroll-mt-20 border-y border-zinc-200 bg-zinc-50 py-16 dark:border-zinc-800 dark:bg-zinc-900/40 sm:py-20 lg:py-24">
+        <section id="contact" className="scroll-mt-20 border-y border-zinc-200 bg-zinc-50 py-16 dark:border-zinc-800 dark:bg-zinc-900/40 sm:py-20 lg:py-24">
           <Container>
             <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-16 xl:gap-24">
               <div>
@@ -201,15 +201,15 @@ export function LandingPage() {
               <Card padding="lg" className="shadow-card-hover">
                 {sent ? (
                   <p className="py-8 text-center text-sm font-medium text-primary-700 dark:text-primary-300">
-                    Recebemos sua mensagem. Em breve entraremos em contato.
+                    Thanks — we received your message and will get back to you soon.
                   </p>
                 ) : (
                   <form className="space-y-5" onSubmit={handleContact}>
                     <TextField
                       id="contact-name"
                       name="name"
-                      label="Nome"
-                      placeholder="Seu nome"
+                      label="Name"
+                      placeholder="Your name"
                       autoComplete="name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -218,29 +218,29 @@ export function LandingPage() {
                       id="contact-email"
                       name="email"
                       type="email"
-                      label="E-mail"
-                      placeholder="voce@email.com"
+                      label="Email"
+                      placeholder="you@email.com"
                       autoComplete="email"
-                      helperText="Usamos só para responder você."
+                      helperText="We only use this to reply to you."
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                     <div>
                       <label htmlFor="contact-msg" className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                        Mensagem
+                        Message
                       </label>
                       <textarea
                         id="contact-msg"
                         name="message"
                         rows={4}
-                        placeholder="Como podemos ajudar?"
+                        placeholder="How can we help?"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         className="w-full resize-y rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/30 dark:border-zinc-600 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-primary-500"
                       />
                     </div>
                     <Button type="submit" className="w-full" size="lg" isLoading={loading}>
-                      Enviar mensagem
+                      Send message
                     </Button>
                   </form>
                 )}

@@ -35,7 +35,7 @@ export async function submitMessage(input: {
   message: string;
 }): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   await addDoc(collection(db, COL), {
     userId: input.userId === null ? null : input.userId,
     name: input.name.trim(),
@@ -60,13 +60,13 @@ export function subscribeMessages(callback: (messages: SupportMessage[]) => void
 
 export async function updateMessageStatus(id: string, status: MessageStatus): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   await updateDoc(doc(db, COL, id), { status });
 }
 
 export async function deleteMessage(id: string): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   await deleteDoc(doc(db, COL, id));
 }
 

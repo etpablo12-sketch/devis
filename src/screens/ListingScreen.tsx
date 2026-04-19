@@ -13,16 +13,16 @@ export function ListingScreen() {
             type="button"
             onClick={() => navigate("/")}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm transition duration-200 hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-zinc-600 dark:hover:bg-zinc-800"
-            aria-label="Voltar ao site"
+            aria-label="Back to site"
           >
             <IconBack />
           </button>
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">
-              Agendar serviço
+              Book a service
             </p>
             <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-2xl">
-              Manicures disponíveis
+              Available manicurists
             </h1>
           </div>
         </div>
@@ -60,7 +60,7 @@ export function ListingScreen() {
               </div>
 
               <div className="mt-5 flex items-end justify-between border-t border-zinc-100 pt-4 dark:border-zinc-800">
-                <span className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Valor</span>
+                <span className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Price</span>
                 <span className="text-lg font-bold text-primary-600 dark:text-primary-400">R$ {m.price}</span>
               </div>
             </button>

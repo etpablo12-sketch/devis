@@ -20,9 +20,9 @@ type NavItem = {
 };
 
 const nav: NavItem[] = [
-  { to: "/admin", label: "Painel", icon: HomeIcon, end: true },
-  { to: "/admin/users", label: "Usuários", icon: UsersIcon },
-  { to: "/admin/posts", label: "Publicações", icon: DocumentTextIcon },
+  { to: "/admin", label: "Dashboard", icon: HomeIcon, end: true },
+  { to: "/admin/users", label: "Users", icon: UsersIcon },
+  { to: "/admin/posts", label: "Posts", icon: DocumentTextIcon },
   { to: "/admin/site", label: "Site", icon: GlobeAltIcon },
 ];
 
@@ -71,10 +71,10 @@ export function AdminShell() {
         <div className="border-t border-zinc-200 p-3 dark:border-zinc-800">
           <Button variant="ghost" className="mb-2 w-full justify-start gap-2" onClick={() => navigate("/")}>
             <ArrowLeftIcon className="h-5 w-5" />
-            Site público
+            Public site
           </Button>
           <Button variant="outline" className="w-full" size="sm" onClick={handleLogout}>
-            Sair
+            Sign out
           </Button>
           <div className="mt-3 flex justify-center">
             <ThemeToggle />

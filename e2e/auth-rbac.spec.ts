@@ -15,7 +15,7 @@ async function loginForm(page: import("@playwright/test").Page, email: string, p
   await page.locator("#login-password").fill(password);
   await Promise.all([
     page.waitForURL(/\/app\/listing|\/admin/, { timeout: 45_000 }),
-    page.getByRole("button", { name: "Entrar" }).click(),
+    page.getByRole("button", { name: "Sign in" }).click(),
   ]);
 }
 
@@ -26,12 +26,12 @@ async function signupOrLogin(
   password: string,
 ) {
   await page.goto("/signup");
-  await page.getByLabel("Nome completo").fill(name);
-  await page.getByLabel("E-mail").fill(email);
+  await page.getByLabel("Full name").fill(name);
+  await page.getByLabel("Email").fill(email);
   const pwdInputs = page.locator('form input[type="password"]');
   await pwdInputs.nth(0).fill(password);
   await page.locator("#su-confirm").fill(password);
-  await page.getByRole("button", { name: "Cadastrar" }).click();
+  await page.getByRole("button", { name: "Sign up" }).click();
   try {
     await page.waitForURL(/\/app\/listing|\/admin/, { timeout: 45_000 });
   } catch {
@@ -48,7 +48,7 @@ test.describe("Firebase auth + admin RBAC", () => {
     await signupOrLogin(page, "E2E Standard User", USER_EMAIL, PASS_USER);
     await expect(page).toHaveURL(/\/app\/listing/);
 
-    await page.getByRole("button", { name: "Sair" }).click();
+    await page.getByRole("button", { name: "Sign out" }).click();
     await page.waitForURL(/\//, { timeout: 15_000 });
 
     // 2) Admin candidate — email listed in VITE_BOOTSTRAP_ADMIN_EMAILS → lands on /admin
@@ -56,9 +56,9 @@ test.describe("Firebase auth + admin RBAC", () => {
     await expect(page).toHaveURL(/\/admin/);
 
     await expect(page.getByText("Divas Admin")).toBeVisible();
-    await expect(page.getByRole("navigation").getByRole("link", { name: "Usuários" })).toBeVisible();
+    await expect(page.getByRole("navigation").getByRole("link", { name: "Users" })).toBeVisible();
 
-    await page.getByRole("button", { name: "Sair" }).click();
+    await page.getByRole("button", { name: "Sign out" }).click();
     await page.waitForURL(/\//, { timeout: 15_000 });
 
     // 3) Login as normal user — /admin must redirect away (non-admin)
@@ -69,13 +69,13 @@ test.describe("Firebase auth + admin RBAC", () => {
     await page.waitForURL(/\/app\/listing/, { timeout: 15_000 });
     await expect(page).not.toHaveURL(/\/admin/);
 
-    await page.getByRole("button", { name: "Sair" }).click();
+    await page.getByRole("button", { name: "Sign out" }).click();
 
     // 4) Login as admin — /admin works
     await loginForm(page, ADMIN_EMAIL, PASS_ADMIN);
     await page.waitForURL(/\/admin/, { timeout: 25_000 });
 
     await expect(page.getByText("Divas Admin")).toBeVisible();
-    await expect(page.getByRole("navigation").getByRole("link", { name: "Publicações" })).toBeVisible();
+    await expect(page.getByRole("navigation").getByRole("link", { name: "Posts" })).toBeVisible();
   });
 });

@@ -38,7 +38,7 @@ export function AdminPostsPage() {
 
   useEffect(() => {
     if (!isFirebaseConfigured()) {
-      setLoadError("Firebase não configurado (.env).");
+      setLoadError("Firebase is not configured (.env).");
       setListReady(true);
       return;
     }
@@ -49,9 +49,9 @@ export function AdminPostsPage() {
         setListReady(true);
       },
       (err) => {
-        setLoadError(err.message || "Erro ao ler publicações.");
+        setLoadError(err.message || "Failed to load posts.");
         setListReady(true);
-        toast.error("Firestore: não foi possível carregar posts.");
+        toast.error("Firestore: could not load posts.");
       },
     );
     return () => unsub?.();
@@ -79,7 +79,7 @@ export function AdminPostsPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!form.title.trim()) {
-      toast.error("Informe o título.");
+      toast.error("Enter a title.");
       return;
     }
     const slug = form.slug.trim() || slugify(form.title);
@@ -87,14 +87,14 @@ export function AdminPostsPage() {
     try {
       if (editing) {
         await updatePost(editing.id, { ...form, slug });
-        toast.success("Publicação atualizada.");
+        toast.success("Post updated.");
       } else {
         await createPost({ ...form, slug });
-        toast.success("Publicação criada.");
+        toast.success("Post created.");
       }
       setOpen(false);
     } catch {
-      toast.error("Falha ao guardar.");
+      toast.error("Could not save.");
     } finally {
       setBusy(false);
     }
@@ -111,9 +111,9 @@ export function AdminPostsPage() {
         published: !p.published,
         order: p.order,
       });
-      toast.success(!p.published ? "Publicado no site." : "Marcado como rascunho.");
+      toast.success(!p.published ? "Published on the site." : "Saved as draft.");
     } catch {
-      toast.error("Não foi possível atualizar.");
+      toast.error("Could not update.");
     } finally {
       setBusy(false);
     }
@@ -123,9 +123,9 @@ export function AdminPostsPage() {
     setBusy(true);
     try {
       await createExamplePublishedPost();
-      toast.success("Publicação de exemplo criada — veja Novidades na página inicial.");
+      toast.success("Sample post created — check News on the home page.");
     } catch {
-      toast.error("Não foi possível criar o exemplo (regras Firestore ou rede).");
+      toast.error("Could not create the sample (Firestore rules or network).");
     } finally {
       setBusy(false);
     }
@@ -136,10 +136,10 @@ export function AdminPostsPage() {
     setBusy(true);
     try {
       await deletePost(deleting.id);
-      toast.success("Removido.");
+      toast.success("Removed.");
       setDeleting(null);
     } catch {
-      toast.error("Não foi possível remover.");
+      toast.error("Could not delete.");
     } finally {
       setBusy(false);
     }
@@ -151,29 +151,29 @@ export function AdminPostsPage() {
     <div>
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Publicações</h1>
+          <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Posts</h1>
           <p className="mt-1 max-w-xl text-sm text-zinc-600 dark:text-zinc-400">
-            Mesma coleção Firestore <code className="rounded bg-zinc-200 px-1 text-xs dark:bg-zinc-800">posts</code> que alimenta a secção{" "}
-            <strong>Novidades</strong> na página inicial (só entradas com &quot;Publicado&quot;).
+            Same Firestore <code className="rounded bg-zinc-200 px-1 text-xs dark:bg-zinc-800">posts</code> collection that powers the{" "}
+            <strong>News</strong> section on the home page (only entries marked published).
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <Link
-              to="/#novidades"
+              to="/#news"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 hover:text-primary-700 dark:text-primary-400"
             >
-              Ver no site
+              View on site
               <ArrowTopRightOnSquareIcon className="h-4 w-4" />
             </Link>
             <span className="text-sm text-zinc-500">
               {listReady ? (
                 <>
-                  <strong className="text-zinc-800 dark:text-zinc-200">{posts.length}</strong> no painel ·{" "}
-                  <strong className="text-emerald-700 dark:text-emerald-400">{publishedCount}</strong> visíveis no site
+                  <strong className="text-zinc-800 dark:text-zinc-200">{posts.length}</strong> in dashboard ·{" "}
+                  <strong className="text-emerald-700 dark:text-emerald-400">{publishedCount}</strong> visible on site
                 </>
               ) : (
-                "A carregar…"
+                "Loading…"
               )}
             </span>
           </div>
@@ -181,11 +181,11 @@ export function AdminPostsPage() {
         <div className="flex flex-wrap gap-2">
           {posts.length === 0 && listReady && !loadError && (
             <Button type="button" variant="outline" isLoading={busy} onClick={addExamplePost}>
-              Inserir publicação de exemplo
+              Insert sample post
             </Button>
           )}
           <Button type="button" onClick={openNew}>
-            Nova publicação
+            New post
           </Button>
         </div>
       </div>
@@ -201,25 +201,25 @@ export function AdminPostsPage() {
           <table className="w-full min-w-[840px] text-left text-sm">
             <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/80">
               <tr>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Ordem</th>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Título</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Order</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Title</th>
                 <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Slug</th>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Estado</th>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">No site</th>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Ações</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Status</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">On site</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
               {!listReady ? (
                 <tr>
                   <td colSpan={6} className="px-4 py-12 text-center text-zinc-500">
-                    A carregar publicações…
+                    Loading posts…
                   </td>
                 </tr>
               ) : posts.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-4 py-12 text-center text-zinc-500">
-                    Nenhuma publicação. Use <strong>Nova publicação</strong> ou <strong>Inserir publicação de exemplo</strong>.
+                    No posts yet. Use <strong>New post</strong> or <strong>Insert sample post</strong>.
                   </td>
                 </tr>
               ) : (
@@ -234,21 +234,21 @@ export function AdminPostsPage() {
                           p.published ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200" : "bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
                         }`}
                       >
-                        {p.published ? "Publicado" : "Rascunho"}
+                        {p.published ? "Published" : "Draft"}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <Button type="button" variant="outline" size="sm" disabled={busy} onClick={() => togglePublished(p)}>
-                        {p.published ? "Despublicar" : "Publicar"}
+                        {p.published ? "Unpublish" : "Publish"}
                       </Button>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-2">
                         <Button type="button" variant="outline" size="sm" onClick={() => openEdit(p)}>
-                          Editar
+                          Edit
                         </Button>
                         <Button type="button" variant="ghost" size="sm" className="text-red-600" onClick={() => setDeleting(p)}>
-                          Excluir
+                          Delete
                         </Button>
                       </div>
                     </td>
@@ -263,13 +263,13 @@ export function AdminPostsPage() {
       <Modal
         open={open}
         onClose={() => setOpen(false)}
-        title={editing ? "Editar publicação" : "Nova publicação"}
+        title={editing ? "Edit post" : "New post"}
         className="max-h-[90vh] max-w-2xl overflow-y-auto"
       >
         <form className="space-y-4" onSubmit={handleSubmit}>
           <TextField
             id="post-title"
-            label="Título"
+            label="Title"
             value={form.title}
             onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
           />
@@ -279,10 +279,10 @@ export function AdminPostsPage() {
             value={form.slug}
             onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
           />
-          <TextField id="post-excerpt" label="Resumo" value={form.excerpt} onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))} />
+          <TextField id="post-excerpt" label="Excerpt" value={form.excerpt} onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))} />
           <div>
             <label htmlFor="post-body" className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              Corpo (texto ou HTML simples)
+              Body (plain text or simple HTML)
             </label>
             <textarea
               id="post-body"
@@ -295,7 +295,7 @@ export function AdminPostsPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <TextField
               id="post-order"
-              label="Ordem"
+              label="Order"
               type="number"
               value={String(form.order)}
               onChange={(e) => setForm((f) => ({ ...f, order: Number(e.target.value) || 0 }))}
@@ -308,31 +308,31 @@ export function AdminPostsPage() {
                   onChange={(e) => setForm((f) => ({ ...f, published: e.target.checked }))}
                   className="h-4 w-4 rounded border-zinc-300 text-primary-600 focus:ring-primary-500"
                 />
-                Publicado no site (Novidades)
+                Published on site (News)
               </label>
             </div>
           </div>
           <div className="flex justify-end gap-2 pt-2">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-              Cancelar
+              Cancel
             </Button>
             <Button type="submit" isLoading={busy}>
-              Guardar
+              Save
             </Button>
           </div>
         </form>
       </Modal>
 
-      <Modal open={Boolean(deleting)} onClose={() => setDeleting(null)} title="Excluir publicação?">
+      <Modal open={Boolean(deleting)} onClose={() => setDeleting(null)} title="Delete post?">
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          Remover <strong>{deleting?.title}</strong> permanentemente?
+          Permanently remove <strong>{deleting?.title}</strong>?
         </p>
         <div className="mt-6 flex justify-end gap-2">
           <Button variant="outline" type="button" onClick={() => setDeleting(null)}>
-            Cancelar
+            Cancel
           </Button>
           <Button type="button" className="bg-red-600 hover:bg-red-700" isLoading={busy} onClick={confirmDelete}>
-            Excluir
+            Delete
           </Button>
         </div>
       </Modal>

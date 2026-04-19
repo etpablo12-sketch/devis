@@ -1,19 +1,19 @@
-/** Map Firebase Auth error codes to user-facing messages (PT-BR) */
+/** Map Firebase Auth error codes to user-facing messages */
 export function mapAuthError(code: string): string {
   const map: Record<string, string> = {
-    "auth/invalid-email": "E-mail inválido.",
-    "auth/user-disabled": "Esta conta foi desativada.",
-    "auth/user-not-found": "Não encontramos uma conta com este e-mail.",
-    "auth/wrong-password": "Senha incorreta.",
-    "auth/invalid-credential": "E-mail ou senha incorretos.",
-    "auth/email-already-in-use": "Este e-mail já está cadastrado.",
-    "auth/weak-password": "Use uma senha mais forte (mínimo 8 caracteres).",
-    "auth/network-request-failed": "Erro de rede. Tente novamente.",
-    "auth/too-many-requests": "Muitas tentativas. Aguarde um momento.",
-    "auth/popup-closed-by-user": "Login cancelado.",
-    "auth/account-exists-with-different-credential": "Este e-mail já está vinculado a outro provedor.",
+    "auth/invalid-email": "Invalid email address.",
+    "auth/user-disabled": "This account has been disabled.",
+    "auth/user-not-found": "We couldn't find an account with that email.",
+    "auth/wrong-password": "Incorrect password.",
+    "auth/invalid-credential": "Incorrect email or password.",
+    "auth/email-already-in-use": "That email is already registered.",
+    "auth/weak-password": "Use a stronger password (at least 8 characters).",
+    "auth/network-request-failed": "Network error. Please try again.",
+    "auth/too-many-requests": "Too many attempts. Wait a moment and try again.",
+    "auth/popup-closed-by-user": "Sign-in was cancelled.",
+    "auth/account-exists-with-different-credential": "This email is already linked to another sign-in method.",
     "auth/operation-not-allowed":
-      "Este método de login não está ativado no Firebase (Console → Authentication → Sign-in method).",
+      "This sign-in method is not enabled in Firebase (Console → Authentication → Sign-in method).",
   };
-  return map[code] || "Não foi possível concluir a operação. Tente novamente.";
+  return map[code] || "Something went wrong. Please try again.";
 }

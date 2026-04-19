@@ -37,7 +37,7 @@ export async function fetchUserProfile(uid: string): Promise<UserProfile | null>
 
 export async function createUserProfile(uid: string, name: string, email: string): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   const bootstrap = getBootstrapAdminEmails();
   const role: UserRole = bootstrap.includes(email.toLowerCase()) ? "admin" : "user";
   await setDoc(doc(db, USERS, uid), {
@@ -78,7 +78,7 @@ export async function ensureUserProfileFromAuthUser(user: {
     return mapUser(snap.id, snap.data() as Record<string, unknown>);
   }
   const email = user.email || "";
-  const name = user.displayName || email.split("@")[0] || "Usuário";
+  const name = user.displayName || email.split("@")[0] || "User";
   await createUserProfile(user.uid, name, email);
   const again = await getDoc(ref);
   if (!again.exists()) return null;
@@ -119,13 +119,13 @@ export function subscribeUsers(
 
 export async function updateUserRole(uid: string, role: UserRole): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   await updateDoc(doc(db, USERS, uid), { role });
 }
 
 export async function deleteUserDocument(uid: string): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   await deleteDoc(doc(db, USERS, uid));
 }
 

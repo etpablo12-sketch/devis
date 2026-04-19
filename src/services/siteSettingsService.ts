@@ -74,7 +74,7 @@ export function subscribeSiteSettings(callback: (settings: SiteSettings) => void
 
 export async function saveSiteSettings(input: Omit<SiteSettings, "updatedAt">): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   await setDoc(
     doc(db, COL, SETTINGS_ID),
     {

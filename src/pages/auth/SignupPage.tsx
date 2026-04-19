@@ -29,13 +29,13 @@ export function SignupPage() {
 
   const errors = useMemo(() => {
     const e: Record<string, string> = {};
-    if (!name.trim()) e.name = "Informe seu nome.";
+    if (!name.trim()) e.name = "Enter your name.";
     const em = email.trim();
-    if (!em) e.email = "Informe seu e-mail.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) e.email = "E-mail inválido.";
-    if (!password) e.password = "Defina uma senha.";
-    else if (password.length < 8) e.password = "Mínimo de 8 caracteres.";
-    if (password !== confirm) e.confirm = "As senhas não coincidem.";
+    if (!em) e.email = "Enter your email.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) e.email = "Invalid email.";
+    if (!password) e.password = "Choose a password.";
+    else if (password.length < 8) e.password = "At least 8 characters.";
+    if (password !== confirm) e.confirm = "Passwords do not match.";
     return e;
   }, [name, email, password, confirm]);
 
@@ -44,7 +44,7 @@ export function SignupPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isFirebaseConfigured()) {
-      toast.error("Configure o Firebase em .env.");
+      toast.error("Configure Firebase in .env.");
       return;
     }
     setSubmitAttempted(true);
@@ -52,12 +52,12 @@ export function SignupPage() {
     setIsLoading(true);
     try {
       const profile = await signUpEmail(name.trim(), email.trim(), password);
-      toast.success("Conta criada!");
+      toast.success("Account created!");
       const sessionEmail = getFirebaseAuth()?.currentUser?.email?.trim() || email.trim();
       navigate(postLoginDestination(profile, sessionEmail, "/app/listing"), { replace: true });
     } catch (err: unknown) {
       const code = err instanceof FirebaseError ? err.code : "";
-      toast.error(code ? mapAuthError(code) : "Não foi possível criar a conta.");
+      toast.error(code ? mapAuthError(code) : "Could not create the account.");
     } finally {
       setIsLoading(false);
     }
@@ -65,7 +65,7 @@ export function SignupPage() {
 
   async function handleGoogle() {
     if (!isFirebaseConfigured()) {
-      toast.error("Configure o Firebase em .env.");
+      toast.error("Configure Firebase in .env.");
       return;
     }
     setIsLoading(true);
@@ -73,11 +73,11 @@ export function SignupPage() {
       await signInGoogle();
       const profile = await refreshProfileWithRetry(refreshProfile);
       const sessionEmail = getFirebaseAuth()?.currentUser?.email?.trim() || "";
-      toast.success("Conta conectada!");
+      toast.success("Account connected!");
       navigate(postLoginDestination(profile, sessionEmail, "/app/listing"), { replace: true });
     } catch (err: unknown) {
       const code = err instanceof FirebaseError ? err.code : "";
-      toast.error(code ? mapAuthError(code) : "Falha no Google.");
+      toast.error(code ? mapAuthError(code) : "Google sign-in failed.");
     } finally {
       setIsLoading(false);
     }
@@ -87,7 +87,7 @@ export function SignupPage() {
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-950">
       <header className="flex items-center justify-between border-b border-zinc-200/80 bg-white/90 px-4 py-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/90 sm:px-6">
         <Link to="/" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400">
-          ← Voltar
+          ← Back
         </Link>
         <ThemeToggle />
       </header>
@@ -95,23 +95,23 @@ export function SignupPage() {
       <div className="mx-auto max-w-md px-4 py-12 sm:px-6">
         <div className="mb-8 text-center">
           <DivasLogo className="mx-auto text-4xl text-primary-600 dark:text-primary-400" />
-          <h1 className="mt-4 text-2xl font-bold text-zinc-900 dark:text-white">Criar conta</h1>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Leva menos de um minuto.</p>
+          <h1 className="mt-4 text-2xl font-bold text-zinc-900 dark:text-white">Create account</h1>
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">Takes less than a minute.</p>
         </div>
 
         <Card padding="lg">
           <Button type="button" variant="outline" className="mb-6 w-full" disabled={isLoading} onClick={handleGoogle}>
-            Continuar com Google
+            Continue with Google
           </Button>
           <div className="relative mb-6 text-center text-xs text-zinc-400">
-            <span className="relative z-10 bg-white px-2 dark:bg-zinc-900">ou</span>
+            <span className="relative z-10 bg-white px-2 dark:bg-zinc-900">or</span>
             <span className="absolute left-0 top-1/2 z-0 h-px w-full bg-zinc-200 dark:bg-zinc-700" />
           </div>
 
           <form className="space-y-4" onSubmit={handleSubmit} noValidate>
             <TextField
               id="su-name"
-              label="Nome completo"
+              label="Full name"
               name="name"
               autoComplete="name"
               value={name}
@@ -120,7 +120,7 @@ export function SignupPage() {
             />
             <TextField
               id="su-email"
-              label="E-mail"
+              label="Email"
               name="email"
               type="email"
               autoComplete="email"
@@ -129,7 +129,7 @@ export function SignupPage() {
               error={showErr("email") ? errors.email : undefined}
             />
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Senha</label>
+              <label className="mb-1.5 block text-sm font-medium text-zinc-700 dark:text-zinc-300">Password</label>
               <div
                 className={cn(
                   "flex overflow-hidden rounded-lg border bg-white dark:bg-zinc-950",
@@ -147,7 +147,7 @@ export function SignupPage() {
                   type="button"
                   className="px-3 text-zinc-500"
                   onClick={() => setShowPassword((s) => !s)}
-                  aria-label="Alternar visibilidade"
+                  aria-label="Toggle password visibility"
                 >
                   {showPassword ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
                 </button>
@@ -156,7 +156,7 @@ export function SignupPage() {
             </div>
             <TextField
               id="su-confirm"
-              label="Confirmar senha"
+              label="Confirm password"
               type="password"
               autoComplete="new-password"
               value={confirm}
@@ -164,14 +164,14 @@ export function SignupPage() {
               error={showErr("confirm") ? errors.confirm : undefined}
             />
             <Button type="submit" className="w-full" size="lg" isLoading={isLoading}>
-              Cadastrar
+              Sign up
             </Button>
           </form>
 
           <p className="mt-6 text-center text-sm text-zinc-600">
-            Já tem conta?{" "}
+            Already have an account?{" "}
             <Link to="/login" className="font-semibold text-primary-600 dark:text-primary-400">
-              Entrar
+              Sign in
             </Link>
           </p>
         </Card>

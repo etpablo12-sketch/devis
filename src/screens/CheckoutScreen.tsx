@@ -23,13 +23,13 @@ export function CheckoutScreen() {
           type="button"
           onClick={() => navigate(`/app/profile/${manicurist.id}`)}
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm transition duration-200 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
-          aria-label="Voltar"
+          aria-label="Back"
         >
           <IconBack />
         </button>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">Pagamento</p>
-          <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-2xl">Resumo do pedido</h1>
+          <p className="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">Payment</p>
+          <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-2xl">Order summary</h1>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ export function CheckoutScreen() {
                 <p className="font-bold text-zinc-900 dark:text-white">{manicurist.name}</p>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                   {manicurist.rating} <span className="text-amber-500">★</span>
-                  <span className="text-zinc-400"> · </span>128 atendimentos
+                  <span className="text-zinc-400"> · </span>128 appointments
                 </p>
               </div>
             </div>
@@ -61,10 +61,10 @@ export function CheckoutScreen() {
 
         <main className="flex flex-col lg:col-span-7 xl:col-span-8">
           <section className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-card dark:border-zinc-800 dark:bg-zinc-900">
-            <h2 className="text-xs font-bold uppercase tracking-wide text-zinc-400">Endereço</h2>
+            <h2 className="text-xs font-bold uppercase tracking-wide text-zinc-400">Address</h2>
             <p className="mt-2 text-sm text-zinc-800 dark:text-zinc-200">{manicurist.address}</p>
 
-            <p className="mt-6 text-xs font-bold uppercase tracking-wide text-zinc-400">Deslocamento</p>
+            <p className="mt-6 text-xs font-bold uppercase tracking-wide text-zinc-400">Travel</p>
             <div className="mt-3 grid grid-cols-2 gap-3 sm:max-w-md">
               <button
                 type="button"
@@ -76,7 +76,7 @@ export function CheckoutScreen() {
                     : "border-zinc-200 text-zinc-600 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-600",
                 )}
               >
-                Particular
+                Private
               </button>
               <button
                 type="button"
@@ -88,19 +88,19 @@ export function CheckoutScreen() {
                     : "border-zinc-200 text-zinc-600 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-600",
                 )}
               >
-                Público
+                Public
               </button>
             </div>
 
             <div className="mt-6 space-y-3 border-t border-zinc-100 pt-4 text-sm dark:border-zinc-800">
               <div className="flex justify-between">
-                <span className="text-zinc-500">Chegada estimada</span>
+                <span className="text-zinc-500">Est. arrival</span>
                 <span className="font-medium text-zinc-900 dark:text-white">~35 min</span>
               </div>
             </div>
 
             <label className="mt-6 block">
-              <span className="text-xs font-bold uppercase tracking-wide text-zinc-400">Método de pagamento</span>
+              <span className="text-xs font-bold uppercase tracking-wide text-zinc-400">Payment method</span>
               <div className="mt-2 flex cursor-pointer items-center justify-between rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 transition duration-200 hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-950 dark:hover:border-zinc-600">
                 <span className="text-sm text-zinc-800 dark:text-zinc-200">Pix</span>
                 <IconChevronDown className="text-zinc-400" />
@@ -114,7 +114,7 @@ export function CheckoutScreen() {
               onClick={() => navigate(`/app/status/${manicurist.id}`)}
               className="w-full max-w-md rounded-xl bg-primary-600 py-3.5 text-center text-sm font-bold uppercase tracking-wide text-white shadow-lg transition duration-200 ease-in-out hover:bg-primary-700 hover:shadow-md"
             >
-              Pagar R$ {manicurist.price}
+              Pay R$ {manicurist.price}
             </button>
           </div>
         </main>
@@ -127,7 +127,7 @@ export function CheckoutScreen() {
             onClick={() => navigate(`/app/status/${manicurist.id}`)}
             className="w-full rounded-xl bg-primary-600 py-4 text-center text-sm font-bold uppercase tracking-wide text-white shadow-lg transition duration-200 ease-in-out hover:bg-primary-700"
           >
-            Pagar R$ {manicurist.price}
+            Pay R$ {manicurist.price}
           </button>
         </div>
       </div>

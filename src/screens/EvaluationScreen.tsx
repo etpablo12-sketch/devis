@@ -20,13 +20,13 @@ export function EvaluationScreen() {
           type="button"
           onClick={() => navigate("/app/listing")}
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm transition duration-200 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
-          aria-label="Voltar"
+          aria-label="Back"
         >
           <IconBack />
         </button>
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-primary-600 dark:text-primary-400">Feedback</p>
-          <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-2xl">Atendimento finalizado</h1>
+          <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-2xl">Appointment complete</h1>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ export function EvaluationScreen() {
                 type="button"
                 onClick={() => setRating(n)}
                 className="rounded p-1 text-amber-400 transition duration-200 ease-in-out hover:scale-110 active:scale-95"
-                aria-label={`${n} estrelas`}
+                aria-label={`${n} stars`}
               >
                 <IconStar className="h-9 w-9 sm:h-10 sm:w-10" filled={rating >= n} />
               </button>
@@ -54,10 +54,10 @@ export function EvaluationScreen() {
           </div>
 
           <label className="mt-8 w-full text-left">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Comentário</span>
+            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Comment</span>
             <textarea
               rows={4}
-              placeholder="Conte como foi sua experiência..."
+              placeholder="Tell us how it went..."
               className="mt-2 w-full resize-y rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 outline-none transition duration-200 placeholder:text-zinc-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/25 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:focus:border-primary-500"
             />
           </label>
@@ -70,13 +70,13 @@ export function EvaluationScreen() {
           onClick={() => navigate("/")}
           className="order-2 w-full rounded-xl border-2 border-primary-600 bg-white py-3.5 text-sm font-bold uppercase tracking-wide text-primary-600 transition duration-200 ease-in-out hover:bg-primary-50 dark:border-primary-500 dark:bg-zinc-900 dark:text-primary-400 dark:hover:bg-primary-950 sm:order-1 sm:w-auto sm:min-w-[200px]"
         >
-          Deixar pra depois
+          Maybe later
         </button>
         <button
           type="button"
           className="order-1 w-full rounded-xl bg-primary-600 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-lg transition duration-200 ease-in-out hover:bg-primary-700 hover:shadow-md sm:order-2 sm:w-auto sm:min-w-[200px]"
         >
-          Avaliar
+          Submit rating
         </button>
       </div>
     </div>

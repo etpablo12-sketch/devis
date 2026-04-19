@@ -19,7 +19,7 @@ export function AdminUsersPage() {
 
   useEffect(() => {
     if (!isFirebaseConfigured()) {
-      setLoadError("Firebase não configurado (.env).");
+      setLoadError("Firebase is not configured (.env).");
       setListReady(true);
       return;
     }
@@ -30,9 +30,9 @@ export function AdminUsersPage() {
         setListReady(true);
       },
       (err) => {
-        setLoadError(err.message || "Erro ao ler utilizadores.");
+        setLoadError(err.message || "Failed to load users.");
         setListReady(true);
-        toast.error("Firestore: não foi possível carregar utilizadores.");
+        toast.error("Firestore: could not load users.");
       },
     );
     return () => unsub?.();
@@ -53,9 +53,9 @@ export function AdminUsersPage() {
     setBusyId(uid);
     try {
       await updateUserRole(uid, role);
-      toast.success("Função atualizada.");
+      toast.success("Role updated.");
     } catch {
-      toast.error("Não foi possível atualizar.");
+      toast.error("Could not update.");
     } finally {
       setBusyId(null);
     }
@@ -66,12 +66,12 @@ export function AdminUsersPage() {
     setBusyId(deleteTarget.uid);
     try {
       await deleteUserDocument(deleteTarget.uid);
-      toast.success("Documento do usuário removido no Firestore.");
-      toast.message("Obs.: a conta no Authentication deve ser removida no Console Firebase se necessário.", {
+      toast.success("User document removed from Firestore.");
+      toast.message("Note: remove the Authentication account in the Firebase Console if needed.", {
         duration: 6000,
       });
     } catch {
-      toast.error("Falha ao remover.");
+      toast.error("Failed to remove.");
     } finally {
       setBusyId(null);
       setDeleteTarget(null);
@@ -80,10 +80,9 @@ export function AdminUsersPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Usuários</h1>
+      <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Users</h1>
       <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-        Lista em tempo real da coleção <code className="rounded bg-zinc-200 px-1 text-xs dark:bg-zinc-800">users</code> — mesmos
-        dados que o login e o perfil usam.
+        Live list from the <code className="rounded bg-zinc-200 px-1 text-xs dark:bg-zinc-800">users</code> collection — the same data login and the profile use.
       </p>
 
       {loadError && (
@@ -97,21 +96,21 @@ export function AdminUsersPage() {
           <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400" />
           <input
             type="search"
-            placeholder="Filtrar por nome, e-mail ou UID…"
+            placeholder="Filter by name, email, or UID…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full rounded-lg border border-zinc-300 bg-white py-2 pl-10 pr-4 text-sm outline-none focus:border-primary-500 dark:border-zinc-600 dark:bg-zinc-950 dark:text-zinc-100"
-            aria-label="Filtrar utilizadores"
+            aria-label="Filter users"
           />
         </div>
         <p className="text-sm text-zinc-500">
           {listReady ? (
             <>
-              <strong className="text-zinc-800 dark:text-zinc-200">{filtered.length}</strong> mostrados
-              {query.trim() ? ` (${users.length} no total)` : ""}
+              <strong className="text-zinc-800 dark:text-zinc-200">{filtered.length}</strong> shown
+              {query.trim() ? ` (${users.length} total)` : ""}
             </>
           ) : (
-            "A carregar…"
+            "Loading…"
           )}
         </p>
       </div>
@@ -121,25 +120,25 @@ export function AdminUsersPage() {
           <table className="w-full min-w-[800px] text-left text-sm">
             <thead className="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900/80">
               <tr>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Nome</th>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">E-mail</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Name</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Email</th>
                 <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">UID</th>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Registo</th>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Função</th>
-                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Ações</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Registered</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Role</th>
+                <th className="px-4 py-3 font-semibold text-zinc-700 dark:text-zinc-300">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
               {!listReady ? (
                 <tr>
                   <td colSpan={6} className="px-4 py-12 text-center text-zinc-500">
-                    A carregar utilizadores…
+                    Loading users…
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-4 py-12 text-center text-zinc-500">
-                    {users.length === 0 ? "Nenhum documento em users ainda — faça um registo no site." : "Nenhum resultado para o filtro."}
+                    {users.length === 0 ? "No documents in users yet — sign up from the site." : "No results for this filter."}
                   </td>
                 </tr>
               ) : (
@@ -164,7 +163,7 @@ export function AdminUsersPage() {
                     </td>
                     <td className="px-4 py-3">
                       <Button variant="ghost" size="sm" className="text-red-600 hover:bg-red-50 dark:hover:bg-red-950" onClick={() => setDeleteTarget(u)}>
-                        Excluir
+                        Delete
                       </Button>
                     </td>
                   </tr>
@@ -175,17 +174,16 @@ export function AdminUsersPage() {
         </div>
       </Card>
 
-      <Modal open={Boolean(deleteTarget)} onClose={() => setDeleteTarget(null)} title="Excluir usuário (Firestore)?">
+      <Modal open={Boolean(deleteTarget)} onClose={() => setDeleteTarget(null)} title="Delete user document (Firestore)?">
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          Remove o documento de <strong>{deleteTarget?.email}</strong>. A conta em Authentication não é removida
-          automaticamente.
+          Removes the document for <strong>{deleteTarget?.email}</strong>. The Authentication account is not removed automatically.
         </p>
         <div className="mt-6 flex justify-end gap-2">
           <Button variant="outline" onClick={() => setDeleteTarget(null)}>
-            Cancelar
+            Cancel
           </Button>
           <Button className="bg-red-600 hover:bg-red-700" onClick={confirmDelete} isLoading={busyId === deleteTarget?.uid}>
-            Excluir documento
+            Delete document
           </Button>
         </div>
       </Modal>

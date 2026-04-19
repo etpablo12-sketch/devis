@@ -79,13 +79,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInEmail = useCallback(async (email: string, password: string) => {
     const auth = getFirebaseAuth();
-    if (!auth) throw new Error("Firebase não configurado");
+    if (!auth) throw new Error("Firebase is not configured");
     await signInWithEmailAndPassword(auth, email.trim(), password);
   }, []);
 
   const signUpEmail = useCallback(async (name: string, email: string, password: string) => {
     const auth = getFirebaseAuth();
-    if (!auth) throw new Error("Firebase não configurado");
+    if (!auth) throw new Error("Firebase is not configured");
     const cred = await createUserWithEmailAndPassword(auth, email.trim(), password);
     await createUserProfile(cred.user.uid, name.trim(), cred.user.email || email.trim());
     const p = await fetchUserProfile(cred.user.uid);
@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInGoogle = useCallback(async () => {
     const auth = getFirebaseAuth();
-    if (!auth) throw new Error("Firebase não configurado");
+    if (!auth) throw new Error("Firebase is not configured");
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
     await signInWithPopup(auth, provider);
@@ -109,7 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const resetPassword = useCallback(async (email: string) => {
     const auth = getFirebaseAuth();
-    if (!auth) throw new Error("Firebase não configurado");
+    if (!auth) throw new Error("Firebase is not configured");
     await sendPasswordResetEmail(auth, email.trim());
   }, []);
 

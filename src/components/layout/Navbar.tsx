@@ -9,9 +9,9 @@ import { ThemeToggle } from "./ThemeToggle";
 import { useAuth } from "../../context/AuthContext";
 
 const navLinks = [
-  { href: "#funcionalidades", label: "Funcionalidades" },
-  { href: "#novidades", label: "Novidades" },
-  { href: "#contato", label: "Contato" },
+  { href: "#features", label: "Features" },
+  { href: "#news", label: "News" },
+  { href: "#contact", label: "Contact" },
 ] as const;
 
 export function Navbar() {
@@ -47,7 +47,7 @@ export function Navbar() {
             {user ? (
               <>
                 <Button variant="ghost" size="sm" className="ml-1" type="button" onClick={() => navigate("/app/listing")}>
-                  Agendar
+                  Book
                 </Button>
                 {profile?.role === "admin" && (
                   <Button variant="outline" size="sm" className="ml-1" type="button" onClick={() => navigate("/admin")}>
@@ -58,10 +58,10 @@ export function Navbar() {
             ) : (
               <>
                 <Button variant="ghost" size="sm" className="ml-1" type="button" onClick={() => navigate("/login")}>
-                  Entrar
+                  Sign in
                 </Button>
                 <Button size="sm" className="ml-1" type="button" onClick={() => navigate("/signup")}>
-                  Cadastrar
+                  Sign up
                 </Button>
               </>
             )}
@@ -78,7 +78,7 @@ export function Navbar() {
               )}
               aria-expanded={open}
               aria-controls="mobile-menu"
-              aria-label={open ? "Fechar menu" : "Abrir menu"}
+              aria-label={open ? "Close menu" : "Open menu"}
               onClick={() => setOpen((o) => !o)}
             >
               {open ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
@@ -114,7 +114,7 @@ export function Navbar() {
                     navigate("/app/listing");
                   }}
                 >
-                  Agendar
+                  Book
                 </button>
                 {profile?.role === "admin" && (
                   <button
@@ -139,7 +139,7 @@ export function Navbar() {
                     navigate("/login");
                   }}
                 >
-                  Entrar
+                  Sign in
                 </button>
                 <button
                   type="button"
@@ -149,7 +149,7 @@ export function Navbar() {
                     navigate("/signup");
                   }}
                 >
-                  Cadastrar
+                  Sign up
                 </button>
               </>
             )}

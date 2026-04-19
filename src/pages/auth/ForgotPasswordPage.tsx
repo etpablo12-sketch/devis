@@ -19,22 +19,22 @@ export function ForgotPasswordPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!isFirebaseConfigured()) {
-      toast.error("Configure o Firebase em .env.");
+      toast.error("Configure Firebase in .env.");
       return;
     }
     const em = email.trim();
     if (!em || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
-      toast.error("Informe um e-mail válido.");
+      toast.error("Enter a valid email.");
       return;
     }
     setLoading(true);
     try {
       await resetPassword(em);
       setSent(true);
-      toast.success("Enviamos o link para redefinir a senha.");
+      toast.success("We sent a link to reset your password.");
     } catch (err: unknown) {
       const code = err instanceof FirebaseError ? err.code : "";
-      toast.error(code ? mapAuthError(code) : "Não foi possível enviar o e-mail.");
+      toast.error(code ? mapAuthError(code) : "Could not send the email.");
     } finally {
       setLoading(false);
     }
@@ -44,34 +44,34 @@ export function ForgotPasswordPage() {
     <div className="min-h-screen bg-zinc-100 dark:bg-zinc-950">
       <header className="flex items-center justify-between border-b border-zinc-200/80 px-4 py-3 dark:border-zinc-800">
         <Link to="/login" className="text-sm font-medium text-primary-600 dark:text-primary-400">
-          ← Voltar ao login
+          ← Back to sign in
         </Link>
         <ThemeToggle />
       </header>
 
       <div className="mx-auto max-w-md px-4 py-16">
-        <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Recuperar senha</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">Reset password</h1>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          Enviaremos um link para o seu e-mail para definir uma nova senha.
+          We&apos;ll email you a link to set a new password.
         </p>
 
         <Card padding="lg" className="mt-8">
           {sent ? (
             <p className="text-center text-sm text-zinc-700 dark:text-zinc-300">
-              Se existir uma conta para <strong>{email}</strong>, você receberá o e-mail em instantes.
+              If an account exists for <strong>{email}</strong>, you&apos;ll receive the email shortly.
             </p>
           ) : (
             <form className="space-y-5" onSubmit={handleSubmit}>
               <TextField
                 id="fp-email"
-                label="E-mail"
+                label="Email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
               />
               <Button type="submit" className="w-full" isLoading={loading}>
-                Enviar link
+                Send link
               </Button>
             </form>
           )}

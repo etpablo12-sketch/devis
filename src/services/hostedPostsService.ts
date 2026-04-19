@@ -87,7 +87,7 @@ export async function createPost(input: {
   order: number;
 }): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   await addDoc(collection(db, COL), {
     title: input.title.trim(),
     slug: input.slug.trim().toLowerCase().replace(/\s+/g, "-"),
@@ -112,7 +112,7 @@ export async function updatePost(
   },
 ): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   await updateDoc(doc(db, COL, id), {
     title: input.title.trim(),
     slug: input.slug.trim().toLowerCase().replace(/\s+/g, "-"),
@@ -126,18 +126,18 @@ export async function updatePost(
 
 export async function deletePost(id: string): Promise<void> {
   const db = getDb();
-  if (!db) throw new Error("Firebase não configurado");
+  if (!db) throw new Error("Firebase is not configured");
   await deleteDoc(doc(db, COL, id));
 }
 
-/** Starter content so the landing “Novidades” section matches admin immediately. */
+/** Starter content so the landing “News” section matches admin immediately. */
 export async function createExamplePublishedPost(): Promise<void> {
   await createPost({
-    title: "Bem-vindo à Divas",
-    slug: "bem-vindo-divas",
-    excerpt: "Primeira publicação de exemplo — edite ou apague no painel.",
+    title: "Welcome to Divas",
+    slug: "welcome-divas",
+    excerpt: "Sample first post — edit or delete it from the dashboard.",
     body:
-      "Este texto veio do painel administrativo (coleção **posts** no Firestore).\n\nMarque **Publicado no site** ao criar ou editar uma publicação para aparecer na página inicial.",
+      "This copy comes from the admin dashboard (the **posts** collection in Firestore).\n\nTurn on **Published on site** when creating or editing a post to show it on the home page.",
     published: true,
     order: 0,
   });
