@@ -1,0 +1,67 @@
+# Operation 1: Create a new user (publicly accessible, but careful with data)
+mutation CreateUser($displayName: String!, $email: String!, $phoneNumber: String, $photoUrl: String) @auth(level: PUBLIC, insecureReason: "This mutation creates a new user record. While accessible to the public, the user is not automatically authenticated or granted special permissions beyond basic data entry.") {
+  user_insert(data: {
+    displayName: $displayName,
+    email: $email,
+    phoneNumber: $phoneNumber,
+    photoUrl: $photoUrl,
+    createdAt_expr: "request.time",
+    userType: "customer"
+  })
+}
+
+# Operation 2: Get a salon's details (publicly accessible)
+query GetSalonDetails($id: UUID!) @auth(level: PUBLIC, insecureReason: "This query fetches public salon information and does not expose sensitive user data.") {
+  salon(id: $id) {
+    id
+    name
+    address
+    phoneNumber
+    description
+    website
+    openingHours
+    owner {
+      displayName
+      email
+    }
+  }
+}
+
+# Operation 3: Schedule an appointment for the current user
+mutation ScheduleAppointment($salonId: UUID!, $stylistId: UUID!, $serviceId: UUID!, $appointmentDate: Date!, $appointmentTime: String!, $notes: String) @auth(level: USER) {
+  appointment_insert(data: {
+    customerId_expr: "auth.uid",
+    salonId: $salonId,
+    stylistId: $stylistId,
+    serviceId: $serviceId,
+    appointmentDate: $appointmentDate,
+    appointmentTime: $appointmentTime,
+    status: "scheduled",
+    notes: $notes,
+    createdAt_expr: "request.time"
+  })
+}
+
+# Operation 4: Get all appointments for the current user (requires authentication)
+query GetMyAppointments @auth(level: USER) {
+  appointments(where: {customer: {id_expr: "auth.uid"}}) {
+    id
+    appointmentDate
+    appointmentTime
+    status
+    notes
+    salon {
+      name
+    }
+    stylist {
+      specialty
+      user {
+        displayName
+      }
+    }
+    service {
+      name
+      price
+    }
+  }
+}

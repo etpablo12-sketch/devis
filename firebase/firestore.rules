@@ -1,0 +1,78 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Path used for optional bootstrap list (same accounts as VITE_BOOTSTRAP_ADMIN_EMAILS).
+    function bootstrapAdminsPath() {
+      return /databases/$(database)/documents/config/bootstrapAdmins;
+    }
+
+    function hasAdminRole() {
+      let u = /databases/$(database)/documents/users/$(request.auth.uid);
+      return signedIn()
+        && exists(u)
+        && get(u).data.role == 'admin';
+    }
+
+    // Lets listed Auth emails pass admin checks even if users/{uid} is missing or not yet admin
+    // (matches app-side hasAdminDashboardAccess for bootstrap + profile null).
+    function isBootstrapAdminByTokenEmail() {
+      let p = bootstrapAdminsPath();
+      return signedIn()
+        && request.auth.token.email != null
+        && exists(p)
+        && get(p).data.keys().hasAll(['emailAllow'])
+        && get(p).data.emailAllow[request.auth.token.email] == true;
+    }
+
+    function isAdmin() {
+      return hasAdminRole() || isBootstrapAdminByTokenEmail();
+    }
+
+    // Created in Firebase Console only — not readable or writable from clients.
+    match /config/{docId} {
+      allow read, write: if false;
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.uid == uid
+        && request.resource.data.role in ['user', 'admin']
+        && request.resource.data.keys().hasAll(['uid', 'name', 'email', 'role', 'createdAt']);
+      allow update: if isAdmin()
+        || (signedIn() && request.auth.uid == uid
+          && request.resource.data.role == resource.data.role);
+      allow delete: if isAdmin();
+    }
+
+    match /messages/{msgId} {
+      allow read: if isAdmin();
+      allow create: if request.resource.data.keys().hasAll(['name', 'email', 'message', 'status', 'createdAt'])
+        && request.resource.data.status == 'pending'
+        && (
+          (request.auth == null && request.resource.data.userId == null)
+          || (signedIn() && request.resource.data.userId == request.auth.uid)
+        );
+      allow update, delete: if isAdmin();
+    }
+
+    match /site/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /posts/{postId} {
+      allow read: if resource.data.published == true || isAdmin();
+      allow create: if isAdmin()
+        && request.resource.data.keys().hasAll(['title', 'slug', 'excerpt', 'body', 'published', 'order', 'createdAt', 'updatedAt']);
+      allow update, delete: if isAdmin();
+    }
+  }
+}

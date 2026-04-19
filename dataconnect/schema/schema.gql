@@ -1,0 +1,59 @@
+type User @table {
+  displayName: String!
+  email: String!
+  createdAt: Timestamp!
+  userType: String!
+  photoUrl: String
+  phoneNumber: String
+}
+
+type Salon @table {
+  name: String!
+  address: String!
+  phoneNumber: String!
+  createdAt: Timestamp!
+  description: String
+  website: String
+  openingHours: String
+  owner: User
+}
+
+type Service @table {
+  name: String!
+  durationMinutes: Int!
+  price: Float!
+  createdAt: Timestamp!
+  description: String
+  salon: Salon
+}
+
+type Stylist @table {
+  specialty: String!
+  createdAt: Timestamp!
+  bio: String
+  portfolioUrl: String
+  user: User
+  salon: Salon
+}
+
+type Appointment @table {
+  appointmentDate: Date!
+  appointmentTime: String!
+  status: String!
+  createdAt: Timestamp!
+  notes: String
+  customer: User
+  salon: Salon
+  stylist: Stylist
+  service: Service
+}
+
+type Review @table {
+  rating: Int!
+  createdAt: Timestamp!
+  comment: String
+  customer: User
+  appointment: Appointment
+  salon: Salon
+  stylist: Stylist
+}
